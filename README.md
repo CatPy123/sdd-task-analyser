@@ -1,0 +1,1 @@
+# Especificacao_SDD_TaskAnalyzer
