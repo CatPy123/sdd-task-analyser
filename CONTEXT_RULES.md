@@ -9,7 +9,7 @@
 * **Legibilidade:** Código deve ser legível, manutenível e com nomes de variáveis e funções descritivos.
 * **Modularização:** Separar responsabilidades (SRP) e evitar lógica em cascata.
 
-## 3.2 Proibições Explícitas (Regras Restritivas)
+## Proibições Explícitas (Regras Restritivas)
 
 * Não utilizar bibliotecas externas não autorizadas (ex: pandas, numpy, etc.).
 * Não alterar, remover ou adaptar os cenários de teste fornecidos.
