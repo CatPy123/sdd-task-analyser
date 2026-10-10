@@ -21,3 +21,10 @@
 * Não assumir comportamentos não especificados no contrato de negócio.
 * Não comentar código em excesso (apenas o necessário para explicar regras de negócio complexas).
 * Não retornar valores diferentes do contrato definido.
+
+## 3.3 Regras de Interação com IA 
+* Contexto Completo: Fornecer sempre o contexto completo antes de qualquer solicitação. 
+* Validação Prévia do Contrato: Exigir que a IA valide se compreendeu o contrato antes de gerar código. 
+* Esclarecimento de Dúvidas: Solicitar explicações detalhadas quando houver dúvidas na solução.
+* Ajuste de Desvios: Readequar o prompt ou o contexto caso necessário. 
+* Filtro Rígido de Respostas: Rejeitar respostas da IA que violem as proibições ou o contrato de negócio.
