@@ -307,5 +307,3 @@ Projeto desenvolvido para fins acadêmicos e institucionais no âmbito do Bootca
 Desenvolvido e mantido sob a metodologia Spec-Driven Development (SDD). O desenvolvedor atua como arquiteto de especificações e homologador crítico do sistema.
 
 ***
-
-**Precisa de mais algum arquivo para o seu repositório no GitHub, como o `CONTEXT_RULES.md`, o `specs/task_analyzer_spec.md` ou o `tests/test_harness.py`?**
