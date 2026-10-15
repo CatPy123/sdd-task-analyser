@@ -24,18 +24,21 @@ if not logger.handlers:
 PRIORIDADES_VALIDAS = {"baixa", "media", "alta"}
 STATUS_VALIDOS = {"pendente", "em_progresso", "concluida"}
 
+class TaskValidationError(Exception):
+    """Exceção base customizada para erros de validação no módulo TaskAnalyzer."""
+    pass
 
-class DataInvalidaError(Exception):
+class DataInvalidaError(TaskValidationError):
     """Exceção lançada quando há inconsistência cronológica nas datas da tarefa."""
     pass
 
 
-class DadosIncompletosError(Exception):
+class DadosIncompletosError(TaskValidationError):
     """Exceção lançada quando campos obrigatórios da tarefa estão ausentes ou nulos."""
     pass
 
 
-class ValorInvalidoError(Exception):
+class ValorInvalidoError(TaskValidationError):
     """Exceção lançada quando um campo contém valor fora do domínio permitido."""
     pass
 
