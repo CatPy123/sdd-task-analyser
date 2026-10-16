@@ -7,10 +7,6 @@
 ## 1. VISÃO GERAL E CONTRATO DE NEGÓCIO (SDD)
 
 ### 1.1 Identificação
-* **Nome completo do estudante:** [Insira seu Nome Completo]
-* **Curso:** [Insira seu Curso — ex: Engenharia de Software / ADS]
-* **Polo/Turma:** [Insira sua Turma/Polo]
-* **E-mail institucional:** [Insira seu E-mail Institucional]
 * **Data de elaboração:** 31 de Agosto de 2026
 * **Versão da especificação:** v1.0 (Fase 1)
 
