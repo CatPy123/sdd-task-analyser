@@ -1,4 +1,4 @@
-# Especificação SDD — TaskAnalyzer
+# Especificação SDD — TaskAnalyzer 
 
 ### *Módulo Avançado de Métricas e Produtividade Operacional*
 
