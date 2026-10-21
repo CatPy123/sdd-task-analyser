@@ -8,6 +8,7 @@ divisão por zero.
 
 from typing import Any
 import pytest
+from datetime import datetime
 from src.task_analyzer import (
     DataInvalidaError,
     DadosIncompletosError,
@@ -268,3 +269,55 @@ def test_hierarquia_excecoes_task_validation_error() -> None:
     assert issubclass(DataInvalidaError, TaskValidationError)
     assert issubclass(DadosIncompletosError, TaskValidationError)
     assert issubclass(ValorInvalidoError, TaskValidationError)
+
+
+def test_analyze_tasks_data_como_datetime_nativo():
+    """Cobre as linhas do 'if isinstance(date_value, datetime)'
+    forçando parse na tarefa concluída"""
+    data_obj_criacao = datetime(2026, 8, 10, 10, 0, 0)
+    data_obj_conclusao = datetime(2026, 8, 15, 10, 0, 0)
+
+    tarefas = [{
+        "id": 99,
+        "titulo": "Teste com datetime nativo",
+        "data_criacao": data_obj_criacao,
+        "prazo": "2026-08-20",
+        "status": "concluida",
+        "data_conclusao": data_obj_conclusao,
+        "prioridade": "baixa"
+    }]
+    resultado = analyze_tasks(tarefas)
+    assert resultado["quantidade_tarefas"]["total"] == 1
+
+
+def test_analyze_tasks_formato_data_invalido_string():
+    """Cobre as linhas do except ValueError
+    forçando o parse da data ao estar concluída"""
+    tarefas = [{
+        "id": 100,
+        "titulo": "Data ruim",
+        "data_criacao": "10/08/2026",
+        "prazo": "2026-08-20",
+        "status": "concluida",
+        "data_conclusao": "2026-08-15",
+        "prioridade": "alta"
+    }]
+    with pytest.raises(ValorInvalidoError) as exc_info:
+        analyze_tasks(tarefas)
+    assert "Formato de data" in str(exc_info.value)
+
+
+def test_analyze_tasks_tipo_data_nao_suportado():
+    """Cobre o raise final caso a data não seja nem string nem datetime"""
+    tarefas = [{
+        "id": 101,
+        "titulo": "Data bizarra",
+        "data_criacao": 20260810,
+        "prazo": "2026-08-20",
+        "status": "concluida",
+        "data_conclusao": "2026-08-15",
+        "prioridade": "alta"
+    }]
+    with pytest.raises(ValorInvalidoError) as exc_info:
+        analyze_tasks(tarefas)
+    assert "Tipo de dado" in str(exc_info.value)
