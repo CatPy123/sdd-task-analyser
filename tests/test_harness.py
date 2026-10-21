@@ -1,8 +1,8 @@
 """
-Suíte de testes automatizados (Test Harness) para o módulo TaskAnalyzer. 
-Este arquivo implementa os testes unitários e funcionais em Pytest, 
-validando o contrato de interface, as regras de negócio, os cenários de 
-aceite (Dado-Quando-Então), o tratamento de exceções e a prevenção contra 
+Suíte de testes automatizados (Test Harness) para o módulo TaskAnalyzer.
+Este arquivo implementa os testes unitários e funcionais em Pytest,
+validando o contrato de interface, as regras de negócio, os cenários de
+aceite (Dado-Quando-Então), o tratamento de exceções e a prevenção contra
 divisão por zero.
 """
 
@@ -19,6 +19,7 @@ from src.task_analyzer import (
 # ==============================================================================
 # FIXTURES DE DADOS PARA OS TESTES
 # ==============================================================================
+
 
 @pytest.fixture
 def lote_misto_cenario_1() -> list[dict[str, Any]]:
@@ -76,24 +77,26 @@ def lote_misto_cenario_1() -> list[dict[str, Any]]:
 # TESTES DO CENÁRIO 1: CAMINHO FELIZ E MÉTRICAS DE SUCESSO
 # ==============================================================================
 
-def test_analyze_tasks_sucesso_cenario_1(lote_misto_cenario_1: list[dict[str, Any]]) -> None:
+def test_analyze_tasks_sucesso_cenario_1(
+    lote_misto_cenario_1: list[dict[str, Any]],
+) -> None:
     """Valida as métricas calculadas para o lote do Cenário 1 da especificação SDD."""
     resultado = analyze_tasks(lote_misto_cenario_1)
-    
+
     # 1. Validação do Tempo Médio de Conclusão (em dias)
     tempos = resultado["tempo_medio_conclusao"]
     assert tempos["geral"] == 2.75  # (2 + 3 + 0 + 6) / 4 = 2.75
     assert tempos["alta"] == 4.0    # (2 + 6) / 2 = 4.0
     assert tempos["media"] == 3.0   # 3 / 1 = 3.0
     assert tempos["baixa"] == 0.0   # 0 / 1 = 0.0
-    
+
     # 2. Validação da Taxa de Atraso (percentual)
     atrasos = resultado["taxa_atraso"]
     assert atrasos["geral"] == 0.5  # 2 atrasadas de 4 concluídas = 0.5
     assert atrasos["alta"] == 0.5   # 1 atrasada de 2 concluídas = 0.5
     assert atrasos["media"] == 1.0  # 1 atrasada de 1 concluída = 1.0
     assert atrasos["baixa"] == 0.0  # 0 atrasadas de 1 concluída = 0.0
-    
+
     # 3. Validação da Volumetria de Tarefas
     quantidades = resultado["quantidade_tarefas"]
     assert quantidades["total"] == 5
@@ -106,7 +109,8 @@ def test_analyze_tasks_sucesso_cenario_1(lote_misto_cenario_1: list[dict[str, An
 
 
 def test_analyze_tasks_conclusao_exatamente_no_prazo() -> None:
-    """Garante que tarefas concluídas no dia do prazo não sejam contadas como atrasadas."""
+    """Garante que tarefas concluídas no dia do prazo
+    não sejam contadas como atrasadas."""
     tarefas = [
         {
             "id": 10,
@@ -158,7 +162,7 @@ def test_analyze_tasks_sem_tarefas_concluidas() -> None:
         },
     ]
     resultado = analyze_tasks(tarefas)
-    
+
     # Não deve lançar exceção e deve zerar as métricas de tempo e atraso
     assert resultado["quantidade_tarefas"]["total"] == 2
     assert resultado["tempo_medio_conclusao"]["geral"] == 0.0
@@ -259,7 +263,8 @@ def test_analyze_tasks_valor_invalido_error_status() -> None:
 
 
 def test_hierarquia_excecoes_task_validation_error() -> None:
-    """Garante que todas as exceções específicas herdem da classe base TaskValidationError."""
+    """Garante que todas as exceções específicas
+    herdem da classe base TaskValidationError."""
     assert issubclass(DataInvalidaError, TaskValidationError)
     assert issubclass(DadosIncompletosError, TaskValidationError)
     assert issubclass(ValorInvalidoError, TaskValidationError)
