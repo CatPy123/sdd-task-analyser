@@ -1,0 +1,50 @@
+name: TaskAnalyzer CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    name: Quality Gate & Test Harness
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout do Código-Fonte
+        uses: actions/checkout@v4
+
+      - name: Configurar Ambiente Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Instalar Dependências do Projeto
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Análise Estática de Código (PEP 8 com flake8)
+        run: |
+          pip install flake8
+          flake8 src/ tests/ --max-line-length=88 --statistics
+
+      - name: Verificação Estrita de Tipagem Estática (mypy)
+        run: |
+          pip install mypy
+          mypy --strict src/
+
+      - name: Execução Estrita do Test Harness (pytest)
+        run: |
+          pip install pytest pytest-cov
+          python -m pytest tests/test_harness.py -v --cov=src --cov-report=term-missing --cov-fail-under=100
